@@ -30,7 +30,11 @@ namespace eMagia
             return "Our "+ this.GetType().Name +"'s stats are:\n" + "Hp: " + Health + " Strength: " + Strength + " Def: " + Defence 
                    + " Speed: " + Speed + " Luck: " + Luck;
         }
-        
+
+        public void DisplayHealth()
+        {
+            Console.WriteLine("Our " + this.GetType().Name + "'s health is at: " + this.Health);
+        }
 
         public void TakeDamage(int enemyStrength)
         {
