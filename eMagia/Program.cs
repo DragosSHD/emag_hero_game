@@ -19,8 +19,8 @@ namespace eMagia
             
             Attack(orderus, beast1);
             
-            Console.WriteLine(orderus);
-            Console.WriteLine(beast1);
+            orderus.DisplayHealth();
+            beast1.DisplayHealth();
             
         }
     }

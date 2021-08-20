@@ -43,26 +43,32 @@ namespace eMagia
 
         private int GetTotalDamage(int enemyStrength)
         {
+            int crtDmg;
             switch (this.GetType().Name)
             {
                 case "Hero":
                     if (ComputeChance(MagicShield.OccuringChance))
                     {
-                        Console.WriteLine("Our hero used the magic shield!");
-                        return MagicShield.GetFinalDamage(enemyStrength, this.Defence);
+                        crtDmg = MagicShield.GetFinalDamage(enemyStrength, this.Defence);
+                        Console.WriteLine("Our hero used the magic shield! The beast inflicted " + crtDmg + " damage.");
+                        return crtDmg;
                     }
 
                     break;
                 case "Beast":
                     if (ComputeChance(RapidStrike.OccuringChance))
                     {
-                        return RapidStrike.GetFinalDamage(enemyStrength, this.Defence);
+                        crtDmg = RapidStrike.GetFinalDamage(enemyStrength, this.Defence);
+                        Console.WriteLine("Our hero used the rapid strike! He inflicted " + crtDmg + " damage.");
+                        return crtDmg;
                     }
 
                     break;
             }
 
-            return enemyStrength - this.Defence;
+            crtDmg = enemyStrength - this.Defence;
+            Console.WriteLine("The " + this.GetType().Name + " used a basic attack causing " + crtDmg + " damage.");
+            return crtDmg;
         }
 
         private static bool ComputeChance(int percentage)
