@@ -11,9 +11,9 @@ namespace eMagia
 
         private int Defence { get; }
 
-        private int Speed { get; }
+        public int Speed { get; }
 
-        private int Luck { get; }
+        public int Luck { get; }
 
         protected EmagiaEntity(int health, int strength, int defence, int speed, int luck)
         {
@@ -27,13 +27,13 @@ namespace eMagia
         
         public override string ToString()
         {
-            return "Our "+ this.GetType().Name +"'s stats are:\n" + "Hp: " + Health + " Strength: " + Strength + " Def: " + Defence 
-                   + " Speed: " + Speed + " Luck: " + Luck;
+            return $"Our { this.GetType().Name }'s stats are:\nHp: { this.Health } Strength: { this.Strength } " +
+                   $"Def: { this.Defence } Speed: { this.Speed } Luck: { this.Luck }";
         }
 
         public void DisplayHealth()
         {
-            Console.WriteLine("Our " + this.GetType().Name + "'s health is at: " + this.Health);
+            Console.WriteLine($"Our { this.GetType().Name }'s health is at: { this.Health }");
         }
 
         public bool IsAlive()
@@ -43,19 +43,26 @@ namespace eMagia
 
         public void TakeDamage(int enemyStrength)
         {
-            var crtDmg = this.GetTotalDamage(enemyStrength);
-            this.Health = this.Health < crtDmg ? 0 : this.Health - crtDmg;
+            this.Health -= this.GetTotalDamage(enemyStrength);
         }
 
         private int GetTotalDamage(int enemyStrength)
         {
             int crtDmg;
+
+            if (ComputeChance(this.Luck))
+            {
+                Console.WriteLine($"The { this.GetType().Name } got lucky so it takes no damage.");
+                return 0;
+            }
+            
             switch (this.GetType().Name)
             {
                 case "Hero":
                     if (ComputeChance(MagicShield.OccuringChance))
                     {
                         crtDmg = MagicShield.GetFinalDamage(enemyStrength, this.Defence);
+                        crtDmg = crtDmg > this.Health ? this.Health : crtDmg;
                         Console.WriteLine("Our hero used the magic shield! The beast inflicted " + crtDmg + " damage.");
                         return crtDmg;
                     }
@@ -65,6 +72,7 @@ namespace eMagia
                     if (ComputeChance(RapidStrike.OccuringChance))
                     {
                         crtDmg = RapidStrike.GetFinalDamage(enemyStrength, this.Defence);
+                        crtDmg = crtDmg > this.Health ? this.Health : crtDmg;
                         Console.WriteLine("Our hero used the rapid strike! He inflicted " + crtDmg + " damage.");
                         return crtDmg;
                     }
@@ -73,6 +81,7 @@ namespace eMagia
             }
 
             crtDmg = enemyStrength - this.Defence;
+            crtDmg = crtDmg > this.Health ? this.Health : crtDmg;
             Console.WriteLine("The " + this.GetType().Name + " was attacked for a total of " + crtDmg + " damage.");
             return crtDmg;
         }
