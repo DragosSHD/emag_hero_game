@@ -9,11 +9,11 @@ namespace eMagia
 
         public int Strength { get; }
 
-        public int Defence { get; }
+        private int Defence { get; }
 
-        public int Speed { get; }
+        private int Speed { get; }
 
-        public int Luck { get; }
+        private int Luck { get; }
 
         protected EmagiaEntity(int health, int strength, int defence, int speed, int luck)
         {
@@ -36,9 +36,15 @@ namespace eMagia
             Console.WriteLine("Our " + this.GetType().Name + "'s health is at: " + this.Health);
         }
 
+        public bool IsAlive()
+        {
+            return this.Health > 0;
+        }
+
         public void TakeDamage(int enemyStrength)
         {
-            this.Health -= this.GetTotalDamage(enemyStrength);
+            var crtDmg = this.GetTotalDamage(enemyStrength);
+            this.Health = this.Health < crtDmg ? 0 : this.Health - crtDmg;
         }
 
         private int GetTotalDamage(int enemyStrength)
@@ -67,7 +73,7 @@ namespace eMagia
             }
 
             crtDmg = enemyStrength - this.Defence;
-            Console.WriteLine("The " + this.GetType().Name + " used a basic attack causing " + crtDmg + " damage.");
+            Console.WriteLine("The " + this.GetType().Name + " was attacked for a total of " + crtDmg + " damage.");
             return crtDmg;
         }
 

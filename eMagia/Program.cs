@@ -11,16 +11,20 @@ namespace eMagia
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello eMagia!");
+            Console.WriteLine("Welcome to eMagia!");
             var orderus = new Hero();
             var beast1 = new Beast();
             Console.WriteLine(orderus);
             Console.WriteLine(beast1);
+
+            while (orderus.IsAlive() && beast1.IsAlive())
+            {
+                Console.WriteLine("");
+                Attack(beast1, orderus);
+                orderus.DisplayHealth();
+                beast1.DisplayHealth();
+            }
             
-            Attack(orderus, beast1);
-            
-            orderus.DisplayHealth();
-            beast1.DisplayHealth();
             
         }
     }
