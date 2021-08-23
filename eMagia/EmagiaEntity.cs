@@ -63,7 +63,7 @@ namespace eMagia
                     {
                         crtDmg = MagicShield.GetFinalDamage(enemyStrength, this.Defence);
                         crtDmg = crtDmg > this.Health ? this.Health : crtDmg;
-                        Console.WriteLine("Our hero used the magic shield! The beast inflicted " + crtDmg + " damage.");
+                        Console.WriteLine("Our Hero used the magic shield! The beast inflicted " + crtDmg + " damage.");
                         return crtDmg;
                     }
 
@@ -73,7 +73,7 @@ namespace eMagia
                     {
                         crtDmg = RapidStrike.GetFinalDamage(enemyStrength, this.Defence);
                         crtDmg = crtDmg > this.Health ? this.Health : crtDmg;
-                        Console.WriteLine("Our hero used the rapid strike! He inflicted " + crtDmg + " damage.");
+                        Console.WriteLine("Our Hero used the rapid strike! He inflicted " + crtDmg + " damage.");
                         return crtDmg;
                     }
 

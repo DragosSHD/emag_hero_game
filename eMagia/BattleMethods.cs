@@ -9,23 +9,33 @@ namespace eMagia
         public static void StartBattle(EmagiaEntity hero, EmagiaEntity beast)
         {
             int countRounds = 0;
-            var switchTurn = BattleMethods.CheckWhoStarts(hero, beast);
-            while (hero.IsAlive() && beast.IsAlive() && countRounds < MaxRounds)
+            var whoStarts = BattleMethods.CheckWhoStarts(hero, beast);
+            EmagiaEntity firstFighter, secondFighter;
+            
+            if (whoStarts)
+            {
+                firstFighter = hero;
+                secondFighter = beast;
+            }
+            else
+            {
+                firstFighter = beast;
+                secondFighter = hero;
+            }
+            while (hero.IsAlive() && beast.IsAlive() && countRounds++ < MaxRounds)
             {
                 Console.WriteLine("");
-                if (switchTurn)
+
+                Attack(firstFighter, secondFighter);
+                if (!secondFighter.IsAlive())
                 {
-                    BattleMethods.Attack(hero, beast);
+                    break;
                 }
-                else
-                {
-                    BattleMethods.Attack(beast, hero);
-                }
+                Attack(secondFighter, firstFighter);
+                
                 hero.DisplayHealth();
                 beast.DisplayHealth();
 
-                switchTurn = !switchTurn;
-                countRounds++;
             }
 
             if (!hero.IsAlive())
@@ -46,7 +56,7 @@ namespace eMagia
             defender.TakeDamage(attacker.Strength);
         }
 
-        // Returns false if beast attacks first and true otherwise
+        // Returns true if the first input gets to start and false otherwise.
         private static bool CheckWhoStarts(EmagiaEntity hero, EmagiaEntity beast)
         {
             return hero.Speed == beast.Speed ? hero.Luck > beast.Luck : hero.Speed > beast.Speed;
